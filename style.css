@@ -82,6 +82,7 @@ body {
 
 section {
     position: relative;
+    box-sizing: border-box;
     width: 100vw;
     max-width: var(--page_width);
     padding-inline: 10px;
@@ -152,7 +153,7 @@ footer {
     align-items: center;
 
     .main {
-        max-width: var(--page_width);
+        max-width: calc(var(--page_width) + 100px);
         padding: 35px 10px;
         width: calc(100% - 50px);
         border-bottom: solid 2px var(--section-primary);
@@ -185,6 +186,7 @@ footer {
                     margin-bottom: 8px;
                 }
                 b { font-weight: 600; }
+                a { text-wrap: wrap; }
             }
         }
     }
@@ -198,21 +200,31 @@ footer {
 }
 
 nav {
+    overflow: hidden;
     position: sticky;
     top: 10px;
     z-index: +10;
 
     width: calc(100% - 100px);
     max-width: var(--page_width);
-    
     padding: 20px 50px;
-    background: #fff6;
-    backdrop-filter: blur(6px);
     box-shadow: 0 0 20px #0003, inset 0 0 20px #fff9;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    &::before {
+        content: " ";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    
+        background: #fff6;
+        backdrop-filter: blur(6px);
+    }
 
     &.sticked {
         background: #ffffff40;
@@ -230,10 +242,88 @@ nav {
         align-items: center;
         gap: 15px;
     }
+
+    .burgerMenu-icon {
+        display: none;
+        position: relative;
+        height: 30px;
+        aspect-ratio: 1;
+        border-radius: 0;
+
+        cursor: pointer;
+
+        .line {
+            position: absolute;
+            width: 100%;
+            height: 20%;
+            right: 0;
+            background: #222;
+            transition: 200ms;
+        }
+        .line2 { width: 75%; top: 50%; transform: translateY(-50%); }
+        .line3 { width: 50%; bottom: 0; }
+    }
+    .burgerMenu-icon:hover .line { width: 100%; }
+
+    .burgerMenu {
+        position: fixed;
+        width: 80vw;
+        height: 100vh;
+        right: 0;
+        top: 0;
+
+        border-radius: 0;
+        background: #fff;
+        transform: translateX(100%);
+
+        &.burgerMenu-open {
+            transform: translateX(0%);
+
+            .burgerMenu-bgClose {
+                opacity: 1;
+                visibility: visible;
+                pointer-events: all;
+            }
+        }
+
+        .burgerMenu-bgClose {
+            content: " ";
+            position: absolute;
+            width: 120vw;
+            height: 100vh;
+            right: 100%;
+
+            background: #0006;
+            border-radius: 0;
+            opacity: 0;
+            visibility: none;
+            pointer-events: none;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            gap: 0;
+
+            a {
+                width: 100%;
+                padding: 15px 30px;
+                box-sizing: border-box;
+                border-bottom: solid 1px #ddd;
+                border-radius: 0;
+                font-weight: 700;
+            }
+        }
+    }
 }
 
 
 #home {
+    margin-inline: -50px;
+    border-radius: 0;
+    border-bottom: dashed 2px var(--primary);
+
     .text-image {
         h1 {
             font-size: 60px;
@@ -258,4 +348,33 @@ nav {
             }
         }
     }
+}
+
+
+@media (max-width: 1350px) {
+    section article :is(.text-image, .image-text) { gap: 35px; }
+
+    #home { margin-inline: 0; }
+    #home .imageGrid > div:has(img:nth-child(2)) { display: none; }
+    #home .text-image h1 { font-size: clamp(32px, 5vw, 60px); }
+    #home .text-image img { height: 280px; }
+}
+
+@media (max-width: 767px) {
+    nav {
+        padding: 10px 20px;
+        width: 100%;
+
+        > ul { display: none; }
+        .burgerMenu-icon { display: inline-block; }
+    }
+
+    section article :is(.text-image, & .image-text) { flex-direction: column-reverse; }
+    section article :is(.text-image, & .image-text) > * { width: 100%; }
+
+    footer .main .widgets { flex-direction: column; }
+    footer .main .name { width: 100%; gap: 10px !important; }
+    footer .main .name img:first-child { width: 20%; }
+    footer .main .name img:last-child { width: 100%; height: auto;
+}
 }
