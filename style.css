@@ -213,6 +213,7 @@ footer {
         background: #0001;
         padding: 20px 20px;
         text-align: center;
+        box-sizing: border-box;
     }
 }
 
@@ -419,7 +420,7 @@ nav {
 
 }
 
-.ansatte {
+#ansatte {
     margin-bottom: 35px !important;
 
     h2 {
@@ -431,18 +432,23 @@ nav {
     .ansatt-group {
         margin-bottom: 35px;
         border-radius: 0;
-        display: flex;
+        /* display: flex;
         justify-content: space-between;
-        flex-wrap: wrap;
+        flex-wrap: wrap; */
         row-gap: 35px;
         column-gap: 50px;
 
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+
         .ansatt {
             border-radius: 0;
-            width: 200px;
+            /* width: 200px; */
+            /* max-width: max-content; */
 
             img {
                 margin-bottom: 8px;
+                width: 100%;
             }
             h3 {
                 font-size: 22px;
@@ -480,12 +486,15 @@ nav {
         .burgerMenu-icon { display: inline-block; }
     }
 
+    div.header h1 { font-size: 33px; }
+
     section article :is(.text-image, & .image-text) { flex-direction: column-reverse; }
     section article :is(.text-image, & .image-text) > * { width: 100%; }
 
     footer .main .widgets { grid-template-columns: 1fr; gap: 25px; }
     footer .main .name { width: 100%; gap: 10px !important; }
     footer .main .name img:first-child { width: 20%; }
-    footer .main .name img:last-child { width: 100%; height: auto;
-}
+    footer .main .name img:last-child { width: 100%; height: auto; }
+
+    #ansatte .ansatt-group { grid-template-columns: repeat(2, 1fr); }
 }
